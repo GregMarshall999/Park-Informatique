@@ -12,6 +12,16 @@ const interventionSchema = new mongoose.Schema({
   description: {
     type: String,
     required: false
+  }, 
+  appareilId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Appareil',
+    required: true
+  },
+  technicienId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Utilisateur', 
+    required: false
   }
 });
 

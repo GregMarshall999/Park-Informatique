@@ -22,6 +22,11 @@ const utilisateurSchema = new mongoose.Schema({
   motdepasse: {
     type: String,
     required: true
+  }, 
+  typeUtilisateur: {
+    type: String, 
+    required: true, 
+    enum: ['admin', 'client', 'technicien']
   }
 });
 

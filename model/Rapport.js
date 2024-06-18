@@ -8,6 +8,16 @@ const rapportSchema = new mongoose.Schema({
   facture: {
     type: Number,
     required: true
+  }, 
+  interventionId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Intervention',
+    required: true
+  },
+  technicienId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Utilisateur',
+    required: true
   }
 });
 

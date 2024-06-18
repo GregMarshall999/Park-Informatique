@@ -13,6 +13,11 @@ const appareilSchema = new mongoose.Schema({
     type: String,
     required: true, 
     enum: ['en service', 'en panne', 'en maintenance']
+  }, 
+  proprietaireId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Utilisateur',
+    required: true
   }
 });
 
