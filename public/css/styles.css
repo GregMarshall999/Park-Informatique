@@ -9,14 +9,6 @@ body {
     height: 100vh;
 }
 
-.login-container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
 input {
     display: block;
     margin: 10px 0;
@@ -35,4 +27,19 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+.home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
