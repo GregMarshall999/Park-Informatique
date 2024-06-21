@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const Utilisateur = require('../model/Utilisateur');
 const router = express.Router();
 
-const secret = 'cle_jwt_random';
+const secret = process.env.JWT_SECRET;
 
 router.post('/login', async (req, res) => {
 

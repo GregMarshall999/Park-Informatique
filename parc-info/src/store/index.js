@@ -4,7 +4,8 @@ import axios from '../axios';
 export default createStore({
   state: {
     user: null,
-    token: null
+    token: null, 
+    equipments: []
   },
   getters: {
     isAuthenticated(state) {
@@ -12,6 +13,9 @@ export default createStore({
     },
     user(state) {
       return state.user;
+    },
+    equipments(state) {
+      return state.equipments;
     }
   },
   mutations: {
@@ -24,6 +28,9 @@ export default createStore({
     clearAuth(state) {
       state.user = null;
       state.token = null;
+    }, 
+    addEquipment(state, equipment) {
+      state.equipments.push(equipment);
     }
   },
   actions: {
@@ -47,6 +54,22 @@ export default createStore({
         commit('setToken', token);
         commit('setUser', JSON.parse(user));
       }
+    }, 
+    async depositEquipment({ commit, state }, equipment) {
+      const response = await axios.post('/appareil', equipment, {
+        headers: {
+          Authorization: `Bearer ${state.token}`
+        }
+      });
+      commit('addEquipment', response.data);
+    }, 
+    async fetchEquipments({ commit, state }) {
+      const response = await axios.get(`/appareil/owner/${state.user._id}`, {
+        headers: {
+          Authorization: `Bearer ${state.token}`
+        }
+      });
+      commit('setEquipments', response.data);
     }
   },
   modules: {
