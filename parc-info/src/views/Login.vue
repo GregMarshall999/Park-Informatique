@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -23,13 +23,21 @@ export default {
       password: ''
     };
   },
+  computed: {
+    ...mapGetters(['user'])
+  },
   methods: {
     ...mapActions(['login']),
     
     async loginSub() {
       try {
         await this.login({ nom_utilisateur: this.username, motdepasse: this.password });
-        this.$router.push('/welcome');
+      
+        switch(this.user.typeUtilisateur) {
+          case "client": this.$router.push('/welcome');
+          case "technicien": this.$router.push('/technician');
+        }
+        
       } catch (error) {
         console.error(error);
         alert('Invalid username or password');

@@ -5,6 +5,7 @@ import UserForm from '../components/CRUD/UtilisateurForm.vue';
 import Login from '../views/Login.vue';
 import Welcome from '../views/Welcome.vue';
 import store from '../store';
+import TechnicianDashboard from '../views/TechnicianDashboard.vue';
 
 const routes = [
   {
@@ -36,19 +37,33 @@ const routes = [
     path: '/welcome',
     name: 'Welcome',
     component: Welcome,
-    beforeEnter: (_, __, next) => {
-      if (!store.getters.isAuthenticated) {
-        next('/login');
-      } else {
-        next();
-      }
-    }
+    meta: { requiresAuth: true, roles: ['client'] }
   },
+  {
+    path: '/technician',
+    name: 'TechnicianDashboard',
+    component: TechnicianDashboard,
+    meta: { requiresAuth: true, roles: ['technicien'] }
+  }
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
+
+
+router.beforeEach((to, _, next) => {
+  const isAuthenticated = store.getters.isAuthenticated;
+  const user = store.getters.user;
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next('/login');
+  } else if (to.meta.roles && to.meta.roles.length > 0 && !to.meta.roles.includes(user.typeUtilisateur)) {
+    next('/login');
+  } else {
+    next();
+  }
+});
 
 export default router

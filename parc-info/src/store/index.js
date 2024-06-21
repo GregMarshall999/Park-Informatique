@@ -28,6 +28,7 @@ export default createStore({
     clearAuth(state) {
       state.user = null;
       state.token = null;
+      state.equipments = [];
     }, 
     setEquipments(state, equipments) {
       state.equipments = equipments;
@@ -65,6 +66,7 @@ export default createStore({
         }
       });
       commit('addEquipment', response.data);
+      await this.fetchEquipments();
     }, 
     async fetchEquipments({ commit, state }) {
       const response = await axios.get(`/appareil/owner/${state.user.id}`, {

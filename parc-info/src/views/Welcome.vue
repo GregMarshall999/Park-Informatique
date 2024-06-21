@@ -80,7 +80,6 @@
         this.brand = '';
         this.model = '';
         this.state = 'in service';
-        await this.fetchEquipments();
       } catch (error) {
         console.error(error);
         alert('Error depositing equipment.');

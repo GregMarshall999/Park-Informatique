@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const createCrudRoutes = require('./routes/crudHandler');
 const authRoutes = require('./routes/auth');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const cors = require('cors');
 
 const app = express();
