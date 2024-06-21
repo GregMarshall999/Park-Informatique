@@ -36,7 +36,7 @@ export default createStore({
   actions: {
     async login({ commit }, credentials) {
       const response = await axios.post('/auth/login', credentials);
-      
+
       commit('setUser', response.data.user);
       commit('setToken', response.data.token);
       localStorage.setItem('token', response.data.token);
@@ -64,7 +64,7 @@ export default createStore({
       commit('addEquipment', response.data);
     }, 
     async fetchEquipments({ commit, state }) {
-      const response = await axios.get(`/appareil/owner/${state.user._id}`, {
+      const response = await axios.get(`/appareil/owner/${state.user.id}`, {
         headers: {
           Authorization: `Bearer ${state.token}`
         }
