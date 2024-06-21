@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div v-if="user">
       <h1>Welcome, {{ user.firstname }} {{ user.lastname }}!</h1>
-      <button @click="logout">Logout</button>
+      <button @click="logoutSub">Logout</button>
     </div>
   </template>
   
@@ -14,7 +14,8 @@
     },
     methods: {
       ...mapActions(['logout']),
-      logout() {
+
+      logoutSub() {
         this.logout();
         this.$router.push('/login');
       }

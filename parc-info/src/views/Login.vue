@@ -1,6 +1,6 @@
 <template>
     <h1>Login</h1>
-    <form @submit.prevent="login">
+    <form @submit.prevent="loginSub">
       <div>
         <label>Username:</label>
         <input type="text" v-model="username" required>
@@ -25,9 +25,10 @@ export default {
   },
   methods: {
     ...mapActions(['login']),
-    async login() {
+    
+    async loginSub() {
       try {
-        await this.login({ username: this.username, password: this.password });
+        await this.login({ nom_utilisateur: this.username, motdepasse: this.password });
         this.$router.push('/welcome');
       } catch (error) {
         console.error(error);

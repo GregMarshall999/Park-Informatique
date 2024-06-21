@@ -4,6 +4,7 @@ import UserList from '../components/CRUD/UtilisateurList.vue';
 import UserForm from '../components/CRUD/UtilisateurForm.vue';
 import Login from '../views/Login.vue';
 import Welcome from '../views/Welcome.vue';
+import store from '../store';
 
 const routes = [
   {
@@ -35,7 +36,7 @@ const routes = [
     path: '/welcome',
     name: 'Welcome',
     component: Welcome,
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (_, __, next) => {
       if (!store.getters.isAuthenticated) {
         next('/login');
       } else {
