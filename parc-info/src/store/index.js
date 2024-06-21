@@ -5,7 +5,8 @@ export default createStore({
   state: {
     user: null,
     token: null, 
-    equipments: []
+    equipments: [], 
+    connected: false
   },
   getters: {
     isAuthenticated(state) {
@@ -16,6 +17,9 @@ export default createStore({
     },
     equipments(state) {
       return state.equipments;
+    }, 
+    isConnected(state) {
+      return state.connected;
     }
   },
   mutations: {
@@ -35,6 +39,9 @@ export default createStore({
     },
     addEquipment(state, equipment) {
       state.equipments.push(equipment);
+    }, 
+    setConnected(state, connected) {
+      state.connected = connected;
     }
   },
   actions: {
@@ -74,6 +81,12 @@ export default createStore({
         }
       });
       commit('setEquipments', response.data);
+    }, 
+    socketConnect({ commit }) {
+      commit("setConnected", true);
+    }, 
+    socketDisconnect({ commit }) {
+      commit("setConnected", false);
     }
   },
   modules: {

@@ -14,13 +14,12 @@ export default {
     data() {
         return {
             notification: false, 
-            socket: io('http://localhost:3000'), 
-            connected: false
+            socket: io('http://localhost:3000')
         };
     },
     created() {
         this.socket.on("connect", () => {
-            //this.connected = true;
+            this.socketConnect();
         })
 
         this.socket.on('newEquipmentNotification', () => {
@@ -33,10 +32,14 @@ export default {
         });
     },
     methods: {
-        ...mapActions(['logout']),
+        ...mapActions(['logout', 'socketConnect', 'socketDisconnect']),
 
         logoutSub() {
-            this.socket.on("disconnect", () => {});
+            this.socket.on("disconnect", () => {
+                this.socketDisconnect();
+            });
+
+            this.socket.disconnect();
             this.logout();
             this.$router.push('/login');
       }

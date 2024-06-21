@@ -91,6 +91,7 @@
     },
 
     logoutSub() {
+        this.socket.disconnect();
         this.logout();
         this.$router.push('/login');
       }
