@@ -29,6 +29,9 @@ export default createStore({
       state.user = null;
       state.token = null;
     }, 
+    setEquipments(state, equipments) {
+      state.equipments = equipments;
+    },
     addEquipment(state, equipment) {
       state.equipments.push(equipment);
     }

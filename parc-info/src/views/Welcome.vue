@@ -4,7 +4,7 @@
 
       <div class="depot-appareil">
         <h2>Deposez un Appareil</h2>
-          <form @submit.prevent="depositEquipment">
+          <form @submit.prevent="depositEquipmentSub">
           <div>
             <label>Marque:</label>
             <input type="text" v-model="brand" required>
@@ -66,13 +66,13 @@
     methods: {
       ...mapActions(['logout', 'depositEquipment', 'fetchEquipments']),
 
-    async depositEquipment() {
+    async depositEquipmentSub() {
       try {
         const newEquipement = {
           marque: this.brand,
           modele: this.model,
           etat: this.state,
-          proprietaireId: this.user._id
+          proprietaireId: this.user.id
         };
         await this.depositEquipment(newEquipement);
         alert('Votre appareil est deposé!');
