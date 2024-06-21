@@ -6,9 +6,13 @@ const createCrudRoutes = require('./routes/crudHandler');
 const authRoutes = require('./routes/auth');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const socketIo = require('socket.io');
+const http = require('http');
 
 const app = express();
 const secret = process.env.JWT_SECRET;
+const server = http.createServer(app);
+const io = socketIo(server);
 
 //ajout de middleware
 app.use(bodyParser.json());
@@ -59,6 +63,21 @@ app.get('/api/appareil/owner/:ownerId', authenticateToken, async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
+});
+
+// Socket.IO Connection
+io.on('connection', (socket) => {
+  console.log('A client connected');
+  
+  // Example: Listen for a new equipment event
+  socket.on('newEquipment', () => {
+    // Broadcast to all connected clients (technicians)
+    io.emit('newEquipmentNotification');
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+  });
 });
 
 const PORT = process.env.PORT || 3000;

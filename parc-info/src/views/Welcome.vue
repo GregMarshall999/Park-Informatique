@@ -51,6 +51,7 @@
   
   <script>
   import { mapGetters, mapActions } from 'vuex';
+  import io from 'socket.io-client';
   
   export default {
     data() {
@@ -77,6 +78,9 @@
         await this.depositEquipment(newEquipement);
         alert('Votre appareil est deposé!');
         
+        const socket = io('http://localhost:3000');
+        socket.emit('newEquipment');
+
         this.brand = '';
         this.model = '';
         this.state = 'in service';
