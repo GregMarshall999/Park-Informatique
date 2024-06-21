@@ -5,7 +5,6 @@ const createCrudRoutes = require('./routes/crudHandler');
 const authRoutes = require('./routes/auth');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const path = require('path');
 const cors = require('cors');
 
 const app = express();
@@ -24,23 +23,6 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
   console.log('Connected to MongoDB');
-});
-
-//Route de connexion
-app.post('/api/auth/login', async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    const user = await User.findOne({ username });
-    if (!user) return res.status(400).json({ message: 'Nom d`Utilisateur ou mot de passe Invalide' });
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: 'Nom d`Utilisateur ou mot de passe Invalide' });
-
-    const token = jwt.sign({ userId: user._id }, 'jwt_secret'); //a tester
-    res.json({ token });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
 });
 
 // Ajout des Models

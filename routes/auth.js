@@ -6,10 +6,12 @@ const router = express.Router();
 const secret = 'cle_jwt_random';
 
 router.post('/login', async (req, res) => {
+
     const { nom_utilisateur, motdepasse } = req.body;
   
     try {
       const user = await Utilisateur.findOne({ nom_utilisateur });
+
       if (!user) {
         return res.status(400).json({ message: 'Invalid username or password' });
       }
