@@ -2,15 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const createCrudRoutes = require('./routes/crudHandler');
+const authRoutes = require('./routes/auth');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 
 //ajout de middleware
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 //connection a DB
 mongoose.connect('mongodb://localhost:27017/mydatabase', {
@@ -52,6 +54,7 @@ app.use('/api/appareil', createCrudRoutes(Appareil));
 app.use('/api/intervention', createCrudRoutes(Intervention));
 app.use('/api/rapport', createCrudRoutes(Rapport));
 app.use('/api/utilisateur', createCrudRoutes(Utilisateur));
+app.use('/api/auth', authRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

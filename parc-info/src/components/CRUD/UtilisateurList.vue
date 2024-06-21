@@ -24,7 +24,7 @@
     methods: {
       async fetchUsers() {
         try {
-          const response = await axios.get('/users');
+          const response = await axios.get('/utilisateur');
           this.users = response.data;
         } catch (error) {
           console.error(error);

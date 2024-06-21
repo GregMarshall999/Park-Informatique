@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const utilisateurSchema = new mongoose.Schema({
   prenom: {
@@ -29,5 +30,16 @@ const utilisateurSchema = new mongoose.Schema({
     enum: ['admin', 'client', 'technicien']
   }
 });
+
+utilisateurSchema.pre('save', async function (next) {
+  if (this.isModified('motdepasse')) {
+    this.motdepasse = await bcrypt.hash(this.motdepasse, 10);
+  }
+  next();
+});
+
+utilisateurSchema.methods.comparePassword = function (candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.motdepasse);
+};
 
 module.exports = mongoose.model('Utilisateur', utilisateurSchema);
