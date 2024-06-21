@@ -6,17 +6,23 @@ const createCrudRoutes = require('./routes/crudHandler');
 const authRoutes = require('./routes/auth');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-const socketIo = require('socket.io');
 const http = require('http');
+const { Server } = require('socket.io');
 
 const app = express();
-const secret = process.env.JWT_SECRET;
-const server = http.createServer(app);
-const io = socketIo(server);
 
 //ajout de middleware
 app.use(bodyParser.json());
 app.use(cors());
+
+const secret = process.env.JWT_SECRET;
+const server = http.createServer(app);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET"]
+  }
+});
 
 //connection a DB
 mongoose.connect('mongodb://localhost:27017/mydatabase', {
@@ -69,9 +75,8 @@ app.get('/api/appareil/owner/:ownerId', authenticateToken, async (req, res) => {
 io.on('connection', (socket) => {
   console.log('A client connected');
   
-  // Example: Listen for a new equipment event
   socket.on('newEquipment', () => {
-    // Broadcast to all connected clients (technicians)
+    console.log("added equip");
     io.emit('newEquipmentNotification');
   });
 
@@ -81,6 +86,6 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

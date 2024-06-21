@@ -32,10 +32,10 @@ export default {
     async loginSub() {
       try {
         await this.login({ nom_utilisateur: this.username, motdepasse: this.password });
-      
+
         switch(this.user.typeUtilisateur) {
-          case "client": this.$router.push('/welcome');
-          case "technicien": this.$router.push('/technician');
+          case "client": this.$router.push('/welcome'); break;
+          case "technicien": this.$router.push('/technician'); break;
         }
         
       } catch (error) {

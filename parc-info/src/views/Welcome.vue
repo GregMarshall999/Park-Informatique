@@ -58,7 +58,8 @@
     return {
       brand: '',
       model: '',
-      state: 'in service'
+      state: 'in service', 
+      socket: io('http://localhost:3000')
     };
   },
     computed: {
@@ -78,8 +79,7 @@
         await this.depositEquipment(newEquipement);
         alert('Votre appareil est deposé!');
         
-        const socket = io('http://localhost:3000');
-        socket.emit('newEquipment');
+        this.socket.emit('newEquipment');
 
         this.brand = '';
         this.model = '';
@@ -97,6 +97,10 @@
     }, 
     created() {
       this.fetchEquipments();
+
+      this.socket.on("connect", () => {
+            //this.connected = true;
+        })
     }
   };
   </script>

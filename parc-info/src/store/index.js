@@ -66,7 +66,6 @@ export default createStore({
         }
       });
       commit('addEquipment', response.data);
-      await this.fetchEquipments();
     }, 
     async fetchEquipments({ commit, state }) {
       const response = await axios.get(`/appareil/owner/${state.user.id}`, {

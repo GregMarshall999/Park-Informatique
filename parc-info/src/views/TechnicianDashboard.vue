@@ -13,24 +13,32 @@ import io from 'socket.io-client';
 export default {
     data() {
         return {
-            notification: false
+            notification: false, 
+            socket: io('http://localhost:3000'), 
+            connected: false
         };
     },
     created() {
-        const socket = io('http://localhost:3000'); 
-        socket.on('newEquipmentNotification', () => {
+        this.socket.on("connect", () => {
+            //this.connected = true;
+        })
+
+        this.socket.on('newEquipmentNotification', () => {
+            console.log("added equip")
+
             this.notification = true;
             setTimeout(() => {
                 this.notification = false;
-            }, 3000); 
+            }, 10000); 
         });
     },
     methods: {
         ...mapActions(['logout']),
 
         logoutSub() {
-        this.logout();
-        this.$router.push('/login');
+            this.socket.on("disconnect", () => {});
+            this.logout();
+            this.$router.push('/login');
       }
     }
 }
