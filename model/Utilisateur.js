@@ -33,12 +33,14 @@ const utilisateurSchema = new mongoose.Schema({
 
 utilisateurSchema.pre('save', async function (next) {
   if (this.isModified('motdepasse')) {
+    console.log('Hashing password');
     this.motdepasse = await bcrypt.hash(this.motdepasse, 10);
   }
   next();
 });
 
 utilisateurSchema.methods.comparePassword = function (candidatePassword) {
+  
   return bcrypt.compare(candidatePassword, this.motdepasse);
 };
 

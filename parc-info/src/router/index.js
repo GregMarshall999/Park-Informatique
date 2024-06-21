@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import UserList from '../components/CRUD/UtilisateurList.vue';
 import UserForm from '../components/CRUD/UtilisateurForm.vue';
 import Login from '../views/Login.vue';
+import Welcome from '../views/Welcome.vue';
 
 const routes = [
   {
@@ -29,7 +30,19 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
-  }
+  },
+  {
+    path: '/welcome',
+    name: 'Welcome',
+    component: Welcome,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters.isAuthenticated) {
+        next('/login');
+      } else {
+        next();
+      }
+    }
+  },
 ]
 
 const router = createRouter({
